@@ -1,1 +1,46 @@
+version: 2
 
+macros:
+  - name: standardize_gender
+    description: "Standardizes gender values from various source formats to consistent values"
+    arguments:
+      - name: gender_column
+        type: string
+        description: "The column containing gender values to standardize"
+
+  - name: clean_string
+    description: "Cleans string values by trimming and handling nulls"
+    arguments:
+      - name: column_name
+        type: string
+        description: "The string column to clean"
+
+  - name: convert_int_to_date
+    description: "Converts integer dates in YYYYMMDD format to proper date types"
+    arguments:
+      - name: date_column
+        type: string
+        description: "The integer date column to convert"
+      - name: format
+        type: string
+        description: "The date format (default: YYYYMMDD)"
+
+  - name: deduplicate_records
+    description: "Creates a deduplication rank for records based on unique key and ordering"
+    arguments:
+      - name: unique_key
+        type: string
+        description: "Column(s) that define uniqueness for deduplication"
+      - name: order_by
+        type: string
+        description: "Ordering for choosing which duplicate to keep"
+
+  - name: get_incremental_where_clause
+    description: "Generates consistent incremental WHERE clauses across models"
+    arguments:
+      - name: column_name
+        type: string
+        description: "The column to use for incremental filtering"
+      - name: lookback_days
+        type: number
+        description: "Number of days to look back for incremental processing"
