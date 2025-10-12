@@ -1,0 +1,8 @@
+# This directory will contain Gold layer models
+# For business metrics, aggregated data, and reporting tables
+#
+# Planned models:
+# - fct_sales (sales facts with dimensions)
+# - dim_customers (unified customer view from CRM + ERP)
+# - dim_products (unified product catalog)
+# - mart_sales_performance (business metrics)
