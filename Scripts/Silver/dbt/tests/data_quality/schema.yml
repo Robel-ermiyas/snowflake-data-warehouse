@@ -1,0 +1,27 @@
+version: 2
+
+tests:
+  - name: test_unique_customers
+    description: "Validates that customer IDs are unique after deduplication"
+    tags: ['data_quality', 'customers']
+
+  - name: test_sales_amount_validation
+    description: "Validates sales amount business rules and data integrity"
+    tags: ['data_quality', 'sales']
+
+  - name: test_product_date_integrity
+    description: "Validates product date relationships and logical consistency"
+    tags: ['data_quality', 'products']
+
+models:
+  - name: stg_customers
+    description: "Cleaned customer data"
+    tests:
+      - unique_customers:
+          tags: ['data_quality']
+
+  - name: stg_sales  
+    description: "Cleaned sales data"
+    tests:
+      - sales_amount_validation:
+          tags: ['data_quality']
