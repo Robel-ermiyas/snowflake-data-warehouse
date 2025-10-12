@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: stg_erp_customers
+    description: "Cleaned ERP customer data with standardized values"
+    columns:
+      - name: cid
+        description: "Customer identifier - primary key"
+        tests:
+          - not_null
+          - unique
+      - name: bdate
+        description: "Validated birth date (future dates set to null)"
+      - name: gen
+        description: "Standardized gender values"
+        tests:
+          - accepted_values:
+              values: ['Female', 'Male', 'n/a']
+
+  - name: stg_erp_locations
+    description: "Cleaned ERP customer location data with standardized country names"
+    columns:
+      - name: cid
+        description: "Customer identifier - primary key"
+        tests:
+          - not_null
+          - unique
+      - name: cntry
+        description: "Standardized country names"
+
+  - name: stg_erp_categories
+    description: "ERP product category hierarchy (minimal transformation needed)"
+    columns:
+      - name: id
+        description: "Category identifier - primary key"
+        tests:
+          - not_null
+          - unique
+      - name: cat
+        description: "Main category name"
+      - name: subcat
+        description: "Sub-category name"
