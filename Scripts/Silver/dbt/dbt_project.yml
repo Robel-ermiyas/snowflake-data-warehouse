@@ -1,0 +1,42 @@
+name: 'silver_layer'
+version: '1.0.0'
+config-version: 2
+
+profile: 'silver_layer'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  silver_layer:
+    staging:
+      +materialized: incremental
+      +schema: silver
+      +tags: ["silver", "staging"]
+      
+      crm:
+        +tags: ["crm"]
+        stg_customers:
+          +alias: crm_cust_info
+        stg_products:
+          +alias: crm_prd_info  
+        stg_sales:
+          +alias: crm_sales_details
+          
+      erp:
+        +tags: ["erp"]
+        stg_erp_customers:
+          +alias: erp_cust_az12
+        stg_erp_locations:
+          +alias: erp_loc_a101
+        stg_erp_categories:
+          +alias: erp_px_cat_g1v2
