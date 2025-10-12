@@ -1,46 +1,53 @@
-
-## 5. **`silver/config/profiles.yml.example`**
-```yaml
+# =====================================================================
 # dbt Profiles Configuration Template
-# Copy this file to profiles.yml and fill in your actual credentials
-# Location: ~/.dbt/profiles.yml (Linux/Mac) or %USERPROFILE%\.dbt\profiles.yml (Windows)
+# ---------------------------------------------------------------------
+# Copy this file to: 
+#   - Linux/Mac:   ~/.dbt/profiles.yml
+#   - Windows:     %USERPROFILE%\.dbt\profiles.yml
+#
+# Then fill in your actual credentials.
+# =====================================================================
 
 silver_layer:
   target: dev
   outputs:
     dev:
       type: snowflake
-      account: your_snowflake_account      # e.g., xy12345.us-east-1
-      user: your_username                  # Snowflake username
-      password: your_password              # Snowflake password (consider keypair auth for production)
-      role: transformer_role               # Snowflake role with read/write permissions
-      database: your_database              # Target database (e.g., analytics)
-      warehouse: transforming_wh           # Snowflake warehouse for dbt
-      schema: silver                       # Target schema for models
-      threads: 4                           # Number of concurrent models to run
+      account: your_snowflake_account        # e.g., xy12345.us-east-1
+      user: your_username                    # Snowflake username
+      password: your_password                # Consider keypair auth for production
+      role: transformer_role                 # Snowflake role with read/write permissions
+      database: your_database                # e.g., analytics
+      warehouse: transforming_wh             # Snowflake warehouse for dbt
+      schema: silver                         # Target schema for models
+      threads: 4                             # Number of concurrent threads
       client_session_keep_alive: false
       query_tag: dbt_silver_layer
 
     prod:
       type: snowflake
       account: your_snowflake_account
-      user: your_service_account           # Service account for production
-      password: your_service_password      # Use keypair authentication in production
+      user: your_service_account             # Service account for production
+      password: your_service_password        # Use keypair authentication in production
       role: transformer_role
       database: analytics_prod
       warehouse: transforming_wh
       schema: silver
-      threads: 8                           # More threads for production
+      threads: 8                             # More threads for production
       client_session_keep_alive: false
       query_tag: dbt_silver_layer_prod
 
-# Environment variable alternative (recommended for CI/CD)
-# Use environment variables for sensitive credentials:
+# =====================================================================
+# Environment Variable Configuration (Recommended for CI/CD)
+# ---------------------------------------------------------------------
+# Instead of hardcoding credentials, export them as environment variables:
+#
 # export SNOWFLAKE_ACCOUNT=your_account
 # export SNOWFLAKE_USER=your_user
 # export SNOWFLAKE_PASSWORD=your_password
 # export SNOWFLAKE_DATABASE=your_database
 # export SNOWFLAKE_WAREHOUSE=your_warehouse
+# =====================================================================
 
 silver_layer_env_vars:
   target: dev
@@ -56,16 +63,4 @@ silver_layer_env_vars:
       schema: silver
       threads: 4
       client_session_keep_alive: false
-
-# Usage Instructions:
-# 1. Copy this file to ~/.dbt/profiles.yml
-# 2. Replace placeholder values with your actual Snowflake credentials
-# 3. For production, consider using keypair authentication instead of passwords
-# 4. Set environment variables for CI/CD deployments
-# 5. Test connection: dbt debug
-
-# Security Notes:
-# - Never commit actual credentials to version control
-# - Use .gitignore to exclude profiles.yml
-# - Consider using Snowflake keypair authentication
-# - Use different service accounts for dev/prod environments
+      query_tag: dbt_silver_layer_env
