@@ -6,7 +6,7 @@
 --              into staging tables without transformation (ELT approach)
 -- Architecture: S3 → Snowflake Stages → Bronze Tables (Raw Data Layer)
 -- =================================================================================
-
+ -- LOADING STRATEGY DOCUMENTATION: refer bronze/00_strategy_documentation.md
 -- =================================================================================
 -- MAIN DATA LOADING PROCEDURE: load_bronze_layer
 -- 
@@ -40,8 +40,8 @@ BEGIN
     SYSTEM$LOG('INFO', 'Starting bronze layer load procedure - loading raw data from S3');
 
     -- =============================================================================
-    -- CRM DATA LOADING PHASE
-    -- Loads Customer Relationship Management data from CRM S3 bucket
+    -- CRM DATA LOADING PHASE - FULL REFRESH STRATEGY
+    -- Each table is completely truncated and reloaded from S3 source files
     -- =============================================================================
     
     -- TABLE: CRM Customer Information
