@@ -1,0 +1,84 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Cleaned and deduplicated customer data from CRM system"
+    columns:
+      - name: cst_id
+        description: "Customer identifier - primary key"
+        tests:
+          - not_null
+          - unique
+      - name: cst_firstname
+        description: "Cleaned and trimmed first name"
+        tests:
+          - not_null
+      - name: cst_lastname
+        description: "Cleaned and trimmed last name"
+        tests:
+          - not_null
+      - name: cst_gndr
+        description: "Standardized gender values"
+        tests:
+          - accepted_values:
+              values: ['Female', 'Male', 'n/a']
+      - name: cst_marital_status
+        description: "Standardized marital status"
+        tests:
+          - accepted_values:
+              values: ['Single', 'Married', 'n/a']
+      - name: cst_create_date
+        description: "Customer creation date from source system"
+
+  - name: stg_products
+    description: "Cleaned product data with derived category IDs and calculated end dates"
+    columns:
+      - name: prd_id
+        description: "Product identifier - primary key"
+        tests:
+          - not_null
+          - unique
+      - name: cat_id
+        description: "Category ID extracted from product key"
+      - name: prd_key
+        description: "Cleaned product key"
+      - name: prd_cost
+        description: "Product cost with nulls handled"
+        tests:
+          - not_null
+      - name: prd_line
+        description: "Product line mapped to descriptive values"
+        tests:
+          - accepted_values:
+              values: ['Mountain', 'Road', 'Other Sales', 'Touring', 'n/a']
+      - name: prd_start_dt
+        description: "Product effective start date"
+      - name: prd_end_dt
+        description: "Calculated product effective end date"
+
+  - name: stg_sales
+    description: "Cleaned sales transactions with validated dates and recalculated amounts"
+    columns:
+      - name: sls_ord_num
+        description: "Sales order number - primary key"
+        tests:
+          - not_null
+          - unique
+      - name: sls_prd_key
+        description: "Product key linking to products table"
+        tests:
+          - not_null
+      - name: sls_cust_id
+        description: "Customer ID linking to customers table"
+        tests:
+          - not_null
+      - name: sls_order_dt
+        description: "Converted order date"
+      - name: sls_sales
+        description: "Validated sales amount"
+        tests:
+          - not_null
+      - name: sls_quantity
+        description: "Sales quantity"
+        tests:
+          - not_null
