@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: mart_customer_segmentation
+    description: "Customer behavioral segmentation using RFM analysis for targeted marketing and retention strategies"
+    columns:
+      - name: customer_segment
+        description: "Customer classification based on order frequency behavior (VIP, Regular, Occasional, New)"
+        tests:
+          - accepted_values:
+              values: ['VIP', 'Regular', 'Occasional', 'New']
+      - name: value_segment
+        description: "Customer classification based on lifetime spending value (High, Medium, Low, Minimal)"
+        tests:
+          - accepted_values:
+              values: ['High Value', 'Medium Value', 'Low Value', 'Minimal Value']
+
+  - name: mart_customer_acquisition
+    description: "Customer acquisition performance metrics by geographic region and time period"
+    columns:
+      - name: acquisition_month
+        description: "Calendar month when customers were first acquired"
+      - name: new_customers
+        description: "Count of new unique customers acquired in the period"
+        tests:
+          - not_null
+      - name: avg_first_order_value
+        description: "Average revenue generated from new customers' first orders"
