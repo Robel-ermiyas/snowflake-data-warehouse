@@ -1,0 +1,57 @@
+{
+  "dashboard": {
+    "title": "Data Pipeline Health Dashboard",
+    "description": "Real-time monitoring of bronze, silver, and gold layer pipelines",
+    "panels": [
+      {
+        "title": "Pipeline Execution Status",
+        "type": "stat",
+        "targets": [
+          {
+            "sql": "SELECT COUNT(*) as success_count FROM airflow.task_instance WHERE state = 'success' AND execution_date >= CURRENT_DATE()",
+            "datasource": "snowflake"
+          },
+          {
+            "sql": "SELECT COUNT(*) as failed_count FROM airflow.task_instance WHERE state = 'failed' AND execution_date >= CURRENT_DATE()",
+            "datasource": "snowflake"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "red", "value": 1}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "title": "Pipeline Execution Duration",
+        "type": "timeseries",
+        "targets": [
+          {
+            "sql": "SELECT execution_date, AVG(DATEDIFF('minute', start_date, end_date)) as avg_duration FROM airflow.task_instance WHERE dag_id IN ('bronze_data_pipeline', 'silver_data_pipeline', 'gold_data_pipeline') GROUP BY execution_date ORDER BY execution_date DESC LIMIT 30",
+            "datasource": "snowflake"
+          }
+        ]
+      },
+      {
+        "title": "Data Freshness by Layer",
+        "type": "table",
+        "targets": [
+          {
+            "sql": "SELECT 'bronze' as layer, MAX(cst_create_date) as latest_data FROM bronze.crm_cust_info UNION ALL SELECT 'silver' as layer, MAX(cst_create_date) as latest_data FROM silver.crm_cust_info UNION ALL SELECT 'gold' as layer, MAX(create_date) as latest_data FROM gold.dim_customers",
+            "datasource": "snowflake"
+          }
+        ]
+      }
+    ],
+    "refresh": "1m",
+    "tags": ["pipeline", "monitoring", "airflow"]
+  }
+}
