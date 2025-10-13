@@ -218,7 +218,7 @@ snowflake-data-warehouse/
 ```bash
 # 1. Clone Repository
 git clone https://github.com/Robel-ermiyas/snowflake-data-warehouse.git
-cd modern-data-warehouse
+cd snowflake-data-warehouse
 
 # 2. Configure Environment
 cp config/environment.example .env
