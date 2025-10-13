@@ -1,0 +1,29 @@
+version: 2
+
+macros:
+  - name: generate_surrogate_key
+    description: "Generate SHA-based surrogate keys for dimension tables to ensure consistent primary keys across the data warehouse"
+    arguments:
+      - name: field_list
+        type: list
+        description: "List of natural key fields to hash into surrogate key"
+
+  - name: calculate_customer_segment
+    description: "Segment customers using RFM analysis for targeted marketing and retention strategies"
+    arguments:
+      - name: total_orders
+        type: integer
+        description: "Customer's total number of orders for frequency analysis"
+      - name: total_spent
+        type: decimal
+        description: "Customer's lifetime spending for monetary analysis"
+
+  - name: calculate_growth_rate
+    description: "Calculate percentage growth between periods for performance trend analysis"
+    arguments:
+      - name: current_value
+        type: decimal
+        description: "Current period value for growth calculation"
+      - name: previous_value
+        type: decimal
+        description: "Previous period value for comparison baseline"
