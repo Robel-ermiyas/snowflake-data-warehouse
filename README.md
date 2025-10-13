@@ -1,7 +1,7 @@
 # 🏗️ Modern Data Warehouse & Analytics Platform
 
 **Author:** Robel Ermiyas Moges • **Year:** 2025  
-**Architecture:** [View Diagram](./Docs/High-level-architecture.svg)  
+**Architecture Overview:** [View Architecture](./Docs/ARCHITECTURE.md)  
 
 ---
 
@@ -106,7 +106,7 @@ modern-data-warehouse/
 
 ```bash
 # 1. Clone Repository
-git clone https://github.com/your-org/modern-data-warehouse.git
+git clone https://github.com/Robel-ermiyas/snowflake-data-warehouse.git
 cd modern-data-warehouse
 
 # 2. Configure Environment
@@ -176,20 +176,9 @@ Access Airflow at **http://localhost:8080** and trigger `full_pipeline`.
 
 ---
 
-## 🔮 Roadmap
-
-| Phase | Focus | Status |
-|--------|--------|---------|
-| **Phase 1: Foundation** | Medallion architecture, orchestration | ✅ Complete |
-| **Phase 2: Enhancement (Q3-Q4 2024)** | Real-time ingestion, ML models, cost optimization | 🔄 In Progress |
-| **Phase 3: Optimization (2025)** | Predictive analytics, NLP queries, data marketplace | 🧠 Planned |
-
----
 
 ## 🤝 Contributing
-
 We welcome contributions!  
-Please read the **[CONTRIBUTING.md](./docs/CONTRIBUTING.md)** before submitting a PR.
 
 **Development Flow**
 1. Fork the repository  
@@ -206,7 +195,7 @@ Please read the **[CONTRIBUTING.md](./docs/CONTRIBUTING.md)** before submitting 
 
 ## 📄 License
 
-Licensed under the **MIT License**. See the [LICENSE](./LICENSE) file for details.
+Licensed under the **MIT License**. 
 
 ---
 
@@ -216,11 +205,18 @@ Licensed under the **MIT License**. See the [LICENSE](./LICENSE) file for detail
 - 🐛 **Issues:** [GitHub Issues](../../issues)  
 - 💬 **Discussions:** [GitHub Discussions](../../discussions)
 
+## ☕ Stay Connected
+
+Let’s connect! 
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/robel-ermiyas)
+
+---
 ---
 
 ## 👥 Acknowledgments
 
-Built with ❤️ by **Robel Ermiyas Moges (2025)** and the Data Engineering Team.  
+Built by **Robel Ermiyas Moges (2025)** 
 
 Special thanks to:
 - **dbt Labs** — for the transformation framework  
