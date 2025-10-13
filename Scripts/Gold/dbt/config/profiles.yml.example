@@ -1,0 +1,68 @@
+# Gold Layer dbt Profiles Configuration Template
+# ==============================================
+# Purpose: Configuration for Gold layer dbt project connecting to Snowflake
+# Security: Never commit actual credentials to version control
+# Usage: Copy to ~/.dbt/profiles.yml and replace placeholder values
+# ==============================================
+
+gold_layer:
+  target: dev
+  outputs:
+    
+    # Development Environment
+    dev:
+      type: snowflake
+      account: "your_snowflake_account"
+      user: "your_username"
+      password: "your_password"
+      role: "gold_transformer_role"
+      database: "your_analytics_database"
+      warehouse: "gold_transforming_wh"
+      schema: "gold"
+      threads: 4
+      query_tag: "dbt_gold_layer_dev"
+
+    # Production Environment  
+    prod:
+      type: snowflake
+      account: "your_snowflake_account"
+      user: "gold_service_account"
+      password: "your_service_password"
+      role: "gold_transformer_role"
+      database: "analytics_prod"
+      warehouse: "gold_transforming_wh"
+      schema: "gold"
+      threads: 8
+      query_tag: "dbt_gold_layer_prod"
+
+# Environment Variable Configuration (Recommended)
+gold_layer_env_vars:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE', 'gold_transformer_role') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
+      schema: "gold"
+      threads: 4
+
+# ==============================================
+# Usage Instructions
+# ==============================================
+
+# 1. Copy this file to ~/.dbt/profiles.yml
+# 2. Replace placeholder values with actual credentials
+# 3. Test connection: dbt debug
+# 4. Run Gold layer: dbt run --models tag:gold
+
+# Development:
+# dbt run --models tag:gold --target dev
+# dbt test --models tag:gold --target dev
+
+# Production:
+# dbt run --models tag:gold --target prod
+# dbt test --models tag:gold --target prod
