@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "Unified customer dimension combining CRM and ERP data"
+    columns:
+      - name: customer_key
+        description: "Surrogate key for customer dimension"
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: "Natural key from CRM system"
+        tests:
+          - not_null
+      - name: country
+        description: "Customer country from ERP location data"
+      - name: gender
+        description: "Standardized gender from CRM and ERP sources"
+        tests:
+          - accepted_values:
+              values: ['Female', 'Male', 'n/a']
+
+  - name: dim_products
+    description: "Product dimension with category hierarchy"
+    columns:
+      - name: product_key
+        description: "Surrogate key for product dimension"
+        tests:
+          - not_null
+          - unique
+      - name: product_number
+        description: "Natural key from product catalog"
+        tests:
+          - not_null
+      - name: category
+        description: "Product main category from ERP"
+      - name: product_line
+        description: "Product line classification"
+        tests:
+          - accepted_values:
+              values: ['Mountain', 'Road', 'Other Sales', 'Touring', 'n/a']
+
+  - name: dim_dates
+    description: "Date dimension for time-based analytics"
+    columns:
+      - name: date_key
+        description: "Surrogate key for date dimension"
+        tests:
+          - not_null
+          - unique
+      - name: date
+        description: "Calendar date"
+        tests:
+          - not_null
+      - name: day_type
+        description: "Classification of weekday vs weekend"
+        tests:
+          - accepted_values:
+              values: ['Weekday', 'Weekend']
+
+  - name: fct_sales
+    description: "Sales fact table with product and customer dimensions"
+    columns:
+      - name: order_number
+        description: "Unique sales order identifier"
+        tests:
+          - not_null
+          - unique
+      - name: product_key
+        description: "Foreign key to product dimension"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_key
+      - name: customer_key
+        description: "Foreign key to customer dimension"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_key
+      - name: sales_amount
+        description: "Total sales amount for the order"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
