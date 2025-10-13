@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: mart_sales_performance
+    description: "Sales performance metrics by product line and geography for business intelligence and executive reporting"
+    columns:
+      - name: order_date
+        description: "Transaction date for sales performance period"
+      - name: product_line
+        description: "Business product line categorization (Mountain, Road, Touring, etc.)"
+      - name: total_sales
+        description: "Gross sales revenue amount for the specified period and dimensions"
+        tests:
+          - not_null
+      - name: avg_order_value
+        description: "Average monetary value per order (Total Sales / Order Count)"
+
+  - name: mart_sales_trends
+    description: "Monthly sales trend analysis with growth metrics for forecasting and performance tracking"
+    columns:
+      - name: year
+        description: "Calendar year for trend analysis"
+      - name: month
+        description: "Calendar month for monthly trend comparison"
+      - name: sales_growth_pct
+        description: "Percentage growth compared to previous month for trend identification"
