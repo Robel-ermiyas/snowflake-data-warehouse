@@ -1,0 +1,79 @@
+{
+  "dashboard": {
+    "title": "Data Quality Dashboard",
+    "description": "Comprehensive data quality metrics across all data layers",
+    "panels": [
+      {
+        "title": "Record Count Trends",
+        "type": "timeseries",
+        "targets": [
+          {
+            "sql": "SELECT date_trunc('day', dwh_create_date) as date, COUNT(*) as record_count FROM bronze.crm_cust_info GROUP BY 1 ORDER BY 1 DESC LIMIT 30",
+            "datasource": "snowflake",
+            "legend": "Bronze Customers"
+          },
+          {
+            "sql": "SELECT date_trunc('day', dwh_create_date) as date, COUNT(*) as record_count FROM silver.crm_cust_info GROUP BY 1 ORDER BY 1 DESC LIMIT 30",
+            "datasource": "snowflake",
+            "legend": "Silver Customers"
+          }
+        ]
+      },
+      {
+        "title": "Data Quality Issues",
+        "type": "stat",
+        "targets": [
+          {
+            "sql": "SELECT COUNT(*) as null_customer_ids FROM bronze.crm_cust_info WHERE cst_id IS NULL",
+            "datasource": "snowflake",
+            "legend": "Null Customer IDs"
+          },
+          {
+            "sql": "SELECT COUNT(*) as negative_sales FROM silver.crm_sales_details WHERE sls_sales < 0",
+            "datasource": "snowflake",
+            "legend": "Negative Sales"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 1},
+                {"color": "red", "value": 10}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "title": "Referential Integrity",
+        "type": "gauge",
+        "targets": [
+          {
+            "sql": "SELECT (1 - (COUNT(*) / (SELECT COUNT(*) FROM gold.fct_sales))) * 100 as integrity_score FROM gold.fct_sales fs LEFT JOIN gold.dim_customers dc ON fs.customer_key = dc.customer_key WHERE dc.customer_key IS NULL",
+            "datasource": "snowflake"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 100,
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "yellow", "value": 95},
+                {"color": "green", "value": 99}
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "refresh": "5m",
+    "tags": ["data-quality", "monitoring"]
+  }
+}
