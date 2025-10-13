@@ -81,8 +81,13 @@ The platform follows the **three-layer Medallion Design**, ensuring a scalable, 
 ## 📁 Repository Structure
 
 ```
-```text
 snowflake-data-warehouse/
+├── datasets/                           
+│   ├── source_crm /
+|   |    |- csv files  
+│   ├── source_erp  
+│   |   |- csv files                
+│      
 ├── docs/                            # 📚 Comprehensive documentation
 │   ├── ARCHITECTURE.md              # System architecture and design
 │   ├── High-level-Architecture.md   # Overview of the Medallion architecture
