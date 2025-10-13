@@ -81,14 +81,120 @@ The platform follows the **three-layer Medallion Design**, ensuring a scalable, 
 ## 📁 Repository Structure
 
 ```
-modern-data-warehouse/
-├── bronze/               # Raw data ingestion
-├── silver/dbt/           # Cleansing and staging
-├── gold/dbt/             # Business marts and analytics
-├── orchestration/        # Airflow DAGs, Terraform IaC
-├── docs/                 # Architecture & deployment docs
-├── scripts/              # Utility scripts
-└── config/               # Environment and profile configs
+```text
+snowflake-data-warehouse/
+├── docs/                            # 📚 Comprehensive documentation
+│   ├── ARCHITECTURE.md              # System architecture and design
+│   ├── High-level-Architecture.md   # Overview of the Medallion architecture
+│   └── diagrams/                    # Architecture visuals and illustrations
+│       ├── High-level-architecture.svg
+│       └── Data-flow-diagram.png
+│
+├── orchestration/                   # ⚙️ Pipeline orchestration & IaC
+│   ├── airflow/                     # Apache Airflow orchestration layer
+│   │   ├── dags/                    # Pipeline DAGs (Bronze → Silver → Gold)
+│   │   │   ├── bronze_pipeline.py
+│   │   │   ├── silver_pipeline.py
+│   │   │   ├── gold_pipeline.py
+│   │   │   ├── full_pipeline.py
+│   │   │   └── monitoring/          # Data quality & reliability checks
+│   │   ├── plugins/                 # Custom Airflow operators
+│   │   │   ├── snowflake_operators.py
+│   │   │   └── dbt_operators.py
+│   │   ├── config/                  # Airflow configuration templates
+│   │   │   ├── airflow.cfg.example
+│   │   │   └── variables.json
+│   │   └── docker/                  # Dockerized Airflow setup
+│   │       ├── Dockerfile
+│   │       ├── docker-compose.yml
+│   │       └── requirements.txt
+│   ├── monitoring/                  # System observability & alerting
+│   │   ├── dashboards/
+│   │   │   ├── pipeline_health.json
+│   │   │   └── data_quality.json
+│   │   ├── alerts/
+│   │   │   ├── slack_notifications.py
+│   │   │   └── email_templates.py
+│   │   └── scripts/
+│   │       ├── health_checks.py
+│   │       └── backup_scripts.py
+│   └── terraform/                   # Infrastructure as Code (IaC)
+│       ├── main.tf
+│       ├── variables.tf
+│       └── outputs.tf
+│
+├── scripts/                         # 🪶 Data transformation & processing layers
+│   ├── bronze/                      # 🟦 Bronze Layer — Raw data ingestion
+│   │   ├── 00_strategy_documentation.md  # Strategy documentation
+│   │   ├── 01_file_formats.sql           # Snowflake file formats
+│   │   ├── 02_external_stages.sql        # S3 stage configurations
+│   │   ├── 03_table_ddl.sql              # Raw table definitions
+│   │   ├── 04_load_procedure.sql         # Data ingestion logic
+│   │   ├── 05_validation_procedures.sql  # Data validation scripts
+│   │   └── 06_execution_script.sql       # Bronze layer execution
+│   │
+│   ├── silver/                     # 🟩 Silver Layer — Data cleaning & modeling
+│   │   └── dbt/
+│   │       ├── dbt_project.yml
+│   │       ├── packages.yml
+│   │       ├── models/
+│   │       │   ├── staging/
+│   │       │   │   ├── crm/
+│   │       │   │   │   ├── stg_customers.sql
+│   │       │   │   │   ├── stg_products.sql
+│   │       │   │   │   ├── stg_sales.sql
+│   │       │   │   │   └── schema.yml
+│   │       │   │   ├── erp/
+│   │       │   │   │   ├── stg_erp_customers.sql
+│   │       │   │   │   ├── stg_erp_locations.sql
+│   │       │   │   │   ├── stg_erp_categories.sql
+│   │       │   │   │   └── schema.yml
+│   │       ├── macros/
+│   │       │   ├── incremental_strategy.sql
+│   │       │   ├── utils.sql
+│   │       │   └── schema.yml
+│   │       ├── tests/
+│   │       │   └── data_quality/
+│   │       └── config/
+│   │
+│   ├── gold/                       # 🟨 Gold Layer — Business-ready analytics
+│   │   └── dbt/
+│   │       ├── dbt_project.yml
+│   │       ├── packages.yml
+│   │       ├── models/
+│   │       │   ├── marts/
+│   │       │   │   ├── core/
+│   │       │   │   │   ├── dim_customers.sql
+│   │       │   │   │   ├── dim_products.sql
+│   │       │   │   │   ├── dim_dates.sql
+│   │       │   │   │   ├── fct_sales.sql
+│   │       │   │   │   └── schema.yml
+│   │       │   │   ├── sales/
+│   │       │   │   │   ├── mart_sales_performance.sql
+│   │       │   │   │   ├── mart_sales_trends.sql
+│   │       │   │   │   └── schema.yml
+│   │       │   │   └── marketing/
+│   │       │   │       ├── mart_customer_segmentation.sql
+│   │       │   │       ├── mart_customer_acquisition.sql
+│   │       │   │       └── schema.yml
+│   │       │   └── staging/
+│   │       │       └── int_unified_customers.sql
+│   │       ├── macros/
+│   │       │   ├── surrogate_keys.sql
+│   │       │   ├── customer_segmentation.sql
+│   │       │   ├── financial_metrics.sql
+│   │       │   └── schema.yml
+│   │       ├── tests/
+│   │       │   ├── referential_integrity/
+│   │       │   └── business_logic/
+│   │       └── config/
+│
+├── config/                         # ⚙️ Configuration templates
+│   ├── terraform.tfvars.example     # Terraform variables
+│   ├── environment.example          # Environment variables
+│   └── dbt-profiles.example         # dbt connection profiles
+│
+└── README.md                        # 🧭 Project overview and documentation
 ```
 
 ---
