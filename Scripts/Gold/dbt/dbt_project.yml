@@ -1,0 +1,96 @@
+# dbt Project Configuration for Gold Layer
+name: 'gold_layer'
+version: '1.0.0'
+config-version: 2
+
+profile: 'gold_layer'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  gold_layer:
+    # Core Dimensions - Mixed materialization strategies
+    core:
+      +schema: gold
+      +tags: ["gold", "core"]
+      dim_customers:
+        +materialized: incremental
+        +unique_key: customer_key
+        +tags: ["dimension", "customer"]
+      dim_products:
+        +materialized: incremental  
+        +unique_key: product_key
+        +tags: ["dimension", "product"]
+      dim_dates:
+        +materialized: table
+        +tags: ["dimension", "date"]
+      fct_sales:
+        +materialized: incremental
+        +unique_key: order_number
+        +tags: ["fact", "sales"]
+
+    # Business Marts - Full refresh for consistent metrics
+    marts:
+      +schema: gold  
+      +materialized: table
+      +tags: ["gold", "marts"]
+      
+      sales:
+        +tags: ["sales", "business"]
+        mart_sales_performance:
+          +tags: ["performance", "metrics"]
+        mart_sales_trends:
+          +tags: ["trends", "analytics"]
+          
+      marketing:
+        +tags: ["marketing", "business"]  
+        mart_customer_segmentation:
+          +tags: ["segmentation", "customer"]
+        mart_customer_acquisition:
+          +tags: ["acquisition", "metrics"]
+
+    # Intermediate models for complex transformations
+    staging:
+      +schema: gold
+      +materialized: view
+      +tags: ["gold", "staging", "intermediate"]
+
+seeds:
+  gold_layer:
+    +schema: gold
+    +tags: ["gold", "seed"]
+    
+snapshots:
+  gold_layer:
+    +schema: gold_snapshots
+    +tags: ["gold", "snapshots"]
+
+vars:
+  # Default date range for date dimension
+  start_date: '2000-01-01'
+  end_date: '2030-12-31'
+  
+  # Business configuration
+  default_currency: 'USD'
+  company_timezone: 'UTC'
+
+query-comment:
+  comment: "Gold Layer - Business Metrics & Dimensions"
+
+# Require explicit tags for better organization
+require-dbt-version: [">=1.0.0", "<2.0.0"]
+
+# Documentation settings
+docs:
+  show:
+    sources: false
