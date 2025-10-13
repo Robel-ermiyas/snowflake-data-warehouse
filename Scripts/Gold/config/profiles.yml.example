@@ -12,76 +12,30 @@ gold_layer:
     # Development Environment
     dev:
       type: snowflake
-      
-      # Snowflake Connection Details
-      account: "your_snowflake_account"           # Format: xy12345.us-east-1
-      user: "your_username"                       # Development user account
-      password: "your_password"                   # Consider keypair auth for security
-      
-      # Snowflake Role & Database
-      role: "gold_transformer_role"               # Role with Gold layer read/write permissions
-      database: "your_analytics_database"         # Target database for Gold models
-      warehouse: "gold_transforming_wh"           # Dedicated warehouse for Gold processing
-      schema: "gold"                              # Target schema for Gold models
-      
-      # Performance Configuration
-      threads: 4                                  # Concurrent model execution
-      client_session_keep_alive: false
+      account: "your_snowflake_account"
+      user: "your_username"
+      password: "your_password"
+      role: "gold_transformer_role"
+      database: "your_analytics_database"
+      warehouse: "gold_transforming_wh"
+      schema: "gold"
+      threads: 4
       query_tag: "dbt_gold_layer_dev"
-      
-      # Connection Settings
-      connect_retries: 3
-      connect_timeout: 30
-      retry_on_database_errors: true
-      retry_all: false
 
     # Production Environment  
     prod:
       type: snowflake
-      
-      # Snowflake Connection Details
       account: "your_snowflake_account"
-      user: "gold_service_account"                # Dedicated service account
-      password: "your_service_password"           # Use keypair authentication recommended
-      
-      # Snowflake Role & Database
+      user: "gold_service_account"
+      password: "your_service_password"
       role: "gold_transformer_role"
-      database: "analytics_prod"                  # Production database
+      database: "analytics_prod"
       warehouse: "gold_transforming_wh"
       schema: "gold"
-      
-      # Production Performance Settings
-      threads: 8                                  # Higher concurrency for production
-      client_session_keep_alive: false
+      threads: 8
       query_tag: "dbt_gold_layer_prod"
-      
-      # Enhanced Production Settings
-      connect_retries: 5
-      connect_timeout: 60
-      retry_on_database_errors: true
 
-    # Staging Environment
-    staging:
-      type: snowflake
-      account: "your_snowflake_account"
-      user: "your_staging_user"
-      password: "your_staging_password"
-      role: "gold_transformer_role"
-      database: "analytics_staging"
-      warehouse: "gold_transforming_wh"
-      schema: "gold"
-      threads: 4
-      query_tag: "dbt_gold_layer_staging"
-
-# Environment Variable Configuration (Recommended for CI/CD)
-# ==========================================================
-# Set these environment variables and use the configuration below:
-# export SNOWFLAKE_ACCOUNT=your_account
-# export SNOWFLAKE_USER=your_user
-# export SNOWFLAKE_PASSWORD=your_password
-# export SNOWFLAKE_DATABASE=your_database
-# export SNOWFLAKE_WAREHOUSE=your_warehouse
-
+# Environment Variable Configuration (Recommended)
 gold_layer_env_vars:
   target: dev
   outputs:
@@ -95,62 +49,20 @@ gold_layer_env_vars:
       warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
       schema: "gold"
       threads: 4
-      query_tag: "dbt_gold_layer_env"
-
-# ==============================================
-# Security Best Practices
-# ==============================================
-
-# 1. Authentication Methods (in order of preference):
-#    - Key Pair Authentication (Most Secure)
-#    - Environment Variables (CI/CD)
-#    - Snowflake OAuth
-#    - Username/Password (Least Secure - avoid in production)
-
-# Key Pair Authentication Example:
-# key_pair:
-#   private_key_path: "~/.ssh/snowflake_key.p8"
-#   private_key_passphrase: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_PASSPHRASE') }}"
-#   role: "gold_transformer_role"
-
-# 2. Network Security:
-#    - Use Snowflake Network Policies
-#    - Restrict IP ranges where possible
-#    - Use PrivateLink for enhanced security
-
-# 3. Access Control:
-#    - Different service accounts for dev/staging/prod
-#    - Principle of least privilege for roles
-#    - Regular access reviews
 
 # ==============================================
 # Usage Instructions
 # ==============================================
 
 # 1. Copy this file to ~/.dbt/profiles.yml
-# 2. Replace all placeholder values with actual credentials
+# 2. Replace placeholder values with actual credentials
 # 3. Test connection: dbt debug
 # 4. Run Gold layer: dbt run --models tag:gold
 
-# Development Workflow:
+# Development:
 # dbt run --models tag:gold --target dev
 # dbt test --models tag:gold --target dev
 
-# Production Deployment:
+# Production:
 # dbt run --models tag:gold --target prod
 # dbt test --models tag:gold --target prod
-
-# ==============================================
-# Troubleshooting
-# ==============================================
-
-# Common Issues:
-# - Authentication: Verify credentials and role permissions
-# - Warehouse: Ensure warehouse exists and is running
-# - Database/Schema: Confirm database and schema exist
-# - Network: Check firewall and network policies
-
-# Debug Commands:
-# dbt debug --config-dir              # Check profiles location
-# dbt debug --connection --target dev # Test connection
-# dbt compile --target dev           # Check model compilation
