@@ -1,0 +1,16 @@
+{
+  "snowflake_conn_id": "snowflake_default",
+  "dbt_project_paths": {
+    "silver": "/opt/airflow/dbt/silver",
+    "gold": "/opt/airflow/dbt/gold"
+  },
+  "alert_emails": ["admin@example.com"],
+  "data_quality_thresholds": {
+    "min_record_count": 1,
+    "max_null_percentage": 5,
+    "freshness_hours": 24
+  },
+  "s3_buckets": {
+    "raw_data": "robel-data-lake"
+  }
+}
