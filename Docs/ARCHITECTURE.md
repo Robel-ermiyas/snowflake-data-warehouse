@@ -709,7 +709,7 @@ models:
 
 ---
 
-This architecture provides a robust, scalable foundation for your modern data warehouse that can evolve with your business needs while maintaining data quality, security, and performance.
+This architecture provides a robust, scalable foundation for modern data warehouse that can evolve with business needs while maintaining data quality, security, and performance.
 
 **Last Updated:** 2025-10-13 17:00:00 EAT                                                        
 **Architecture Version:** 1.0  
