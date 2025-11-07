@@ -88,12 +88,12 @@ snowflake-data-warehouse/
 │   ├── source_erp  
 │   |   |- csv files                
 │      
-├── docs/                            # 📚 Comprehensive documentation
+├── Docs/                            # 📚 Comprehensive documentation
 │   ├── ARCHITECTURE.md              # System architecture and design
 │   ├── High-level-Architecture.md   # Overview of the Medallion architecture
-│   └── diagrams/                    # Architecture visuals and illustrations
-│       ├── High-level-architecture.svg
-│       └── Data-flow-diagram.png
+│   
+│       
+│       
 │
 ├── orchestration/                   # ⚙️ Pipeline orchestration & IaC
 │   ├── airflow/                     # Apache Airflow orchestration layer
