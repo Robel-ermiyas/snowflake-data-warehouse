@@ -304,12 +304,6 @@ We welcome contributions!
 
 ---
 
-## 📄 License
-
-Licensed under the **MIT License**. 
-
----
-
 ## 📞 Contact & Resources
 
 - 📘 **Documentation:** [`/Docs`](./Docs/)  
@@ -321,7 +315,7 @@ Let’s connect!
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/robel-ermiyas)
 
 ---
----
+
 
 ## 👥 Acknowledgments
 
