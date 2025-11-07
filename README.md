@@ -312,9 +312,7 @@ Licensed under the **MIT License**.
 
 ## 📞 Contact & Resources
 
-- 📘 **Documentation:** [`/docs`](./docs/)  
-- 🐛 **Issues:** [GitHub Issues](../../issues)  
-- 💬 **Discussions:** [GitHub Discussions](../../discussions)
+- 📘 **Documentation:** [`/Docs`](./Docs/)  
 
 ## ☕ Stay Connected
 
